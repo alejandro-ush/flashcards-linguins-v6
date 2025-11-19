@@ -10,6 +10,14 @@
 !.yarn/releases
 !.yarn/versions
 
+.next
+
+# env files (NEVER COMMIT SECRETS)
+.env
+.env.local
+.env.*.local
+
+
 # testing
 /coverage
 
@@ -31,7 +39,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+#.env*   anulado porque se contradice con lo que pegue de la fase 4. 19/11/2025
 
 # vercel
 .vercel
