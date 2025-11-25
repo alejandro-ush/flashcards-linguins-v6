@@ -1,5 +1,6 @@
-/* src/app/(app)/study/page.tsx */
+// src/app/(app)/study/page.tsx
 
+/* ver1
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -38,7 +39,7 @@ export default function StudyPage() {
 
   return (
     <main className="px-4 py-6 max-w-4xl mx-auto space-y-4">
-      {/* Header */}
+      --{ Header }
       <div className="flex items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-slate-50">
@@ -59,7 +60,7 @@ export default function StudyPage() {
         )}
       </div>
 
-      {/* Estados de carga / error / vacío */}
+      -- Estados de carga / error / vacío
       {loading && (
         <p className="text-sm text-slate-400">Cargando tarjetas…</p>
       )}
@@ -77,7 +78,7 @@ export default function StudyPage() {
         </p>
       )}
 
-      {/* Card y acciones */}
+      -- Card y acciones
       {session.current && (
         <div className="space-y-4">
           <StudyFlashcard card={session.current} side={session.side} />
@@ -113,6 +114,79 @@ export default function StudyPage() {
           </p>
         </div>
       )}
+    </main>
+  );
+}
+*/
+
+"use client";
+
+import Link from "next/link";
+import { StudyModeTabs } from "@/components/study/StudyModeTabs";
+
+export default function StudyHubPage() {
+  return (
+    <main className="px-4 py-6 max-w-4xl mx-auto space-y-6">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold">Modo Reto</h1>
+          <p className="text-sm text-slate-400">
+            Entrená vocabulario con diferentes estilos de práctica. Todos
+            conectados a un mismo sistema de repaso espaciado.
+          </p>
+        </div>
+        <StudyModeTabs />
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-3 text-sm">
+        <Link
+          href="/study/flashcard"
+          className="rounded-2xl bg-slate-900/70 border border-slate-800 p-4 hover:border-primary/60 hover:bg-slate-900 transition"
+        >
+          <p className="text-xs text-slate-400 mb-1 uppercase tracking-[0.18em]">
+            Flashcards
+          </p>
+          <p className="text-slate-50 font-medium mb-1">
+            Memoria (Clásica)
+          </p>
+          <p className="text-[11px] text-slate-400">
+            Tarjetas, ideal para repaso rápido y consolidar
+            vocabulario.
+          </p>
+        </Link>
+
+        <Link
+          href="/study/writing"
+          className="rounded-2xl bg-slate-900/70 border border-slate-800 p-4 hover:border-primary/60 hover:bg-slate-900 transition"
+        >
+          <p className="text-xs text-slate-400 mb-1 uppercase tracking-[0.18em]">
+            Writing
+          </p>
+          <p className="text-slate-50 font-medium mb-1">
+            Escritura
+          </p>
+          <p className="text-[11px] text-slate-400">
+            Practicá escribiendo palabras o frase. Refuerza ortografía y
+            producción activa.
+          </p>
+        </Link>
+
+        <Link
+          href="/study/mc"
+          className="rounded-2xl bg-slate-900/70 border border-slate-800 p-4 hover:border-primary/60 hover:bg-slate-900 transition"
+        >
+          <p className="text-xs text-slate-400 mb-1 uppercase tracking-[0.18em]">
+            Multiple Choice
+          </p>
+          <p className="text-slate-50 font-medium mb-1">
+            Opción múltiple
+          </p>
+          <p className="text-[11px] text-slate-400">
+            Elegí la respuesta correcta entre varias opciones. Perfecto para
+            niveles iniciales A1–A2.
+          </p>
+        </Link>
+      </div>
     </main>
   );
 }
