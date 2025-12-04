@@ -1,0 +1,49 @@
+1. 🧩 ADAPTIVE ENGINE – FUTURE IMPROVEMENTS (v6.2/v7)
+
+🔧 1. Mejorar priorización de new items por dificultad
+
+Clase: Adaptive Engine
+Estado: backlog
+Descripción:
+Cuando dos new items compiten, podría priorizarse medium sobre hard si la performance reciente fue media — para evitar frustración.
+Impacto: UX suave, progresión más natural.
+Prioridad: ⭐⭐ (media)
+Versión sugerida: v6.2
+
+🔧 2. Añadir “slow streak detection” al cooldown
+
+Clase: Adaptive Engine → shouldCooldown()
+Estado: hook preparado (placeholder)
+Descripción:
+Detectar series de respuestas lentas (>3500ms) en las últimas 5–7 preguntas para activar cooldown soft.
+Impacto: Reduce fatiga cognitiva real.
+Prioridad: ⭐⭐⭐ (alta)
+Versión: v6.2
+
+🔧 3. Centralizar lógica de classifyStatus entre adaptive y skill engine
+
+Archivo: adaptive.ts / skill.ts
+Descripción:
+Ahora classifyStatus existe en dos lugares (engine y skill engine).
+Podría unificarse en un módulo core/classification.ts.
+Impacto: Menor duplicación, menor riesgo de divergencia.
+Prioridad: ⭐ (baja)
+Versión: v7.0 (ideal)
+
+🔧 4. Mejorar fallback incorporando micro-rutas personalizadas
+
+Clase: Adaptive Engine
+Descripción:
+El fallback debería considerar quién tiene mayor potencial de progreso (ítems con fuerza 40–60).
+Impacto: Ruta más inteligente y personalizada.
+Prioridad: ⭐⭐
+Versión: v6.3
+
+🔧 5. Optimizar algoritmo para newQueue → buckets dinámicos
+
+Descripción:
+Ahora easy/medium/hard es fijo por tipo.
+Podría ser dinámico por “historial global del usuario”, no solo del ítem.
+Impacto: Dificultad real adaptativa.
+Prioridad: ⭐⭐
+Versión: v7
