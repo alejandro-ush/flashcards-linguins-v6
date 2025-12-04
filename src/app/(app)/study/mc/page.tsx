@@ -54,6 +54,7 @@ export default function MultipleChoiceStudyPage() {
   // GENERAR OPCIONES NUEVAS CUANDO CAMBIA LA TARJETA
   // ---------------------------------------------------------
   useEffect(() => {
+<<<<<<< ours
   if (!currentCard) return;
 
   queueMicrotask(() => {
@@ -67,6 +68,24 @@ export default function MultipleChoiceStudyPage() {
     setOptions(shuffle([currentCard.word_to, ...distractors]));
   });
 }, [currentCard, cards]);
+=======
+    if (!currentCard) return;
+
+    queueMicrotask(() => {
+      const other = cards
+        .filter((c) => c.id !== currentCard.id)
+        .slice(0, 30)
+        .map((c) => c.word_to);
+
+      const distractors = shuffle(other).slice(0, 2);
+
+      setOptions(shuffle([currentCard.word_to, ...distractors]));
+     });
+  }, [currentCard, cards]);
+
+  // ❗ ELIMINADO el reset automático de result
+  //    Esto era lo que rompía el feedback y la UX.
+>>>>>>> theirs
 
   if (loading) return <p className="p-6 text-slate-400">Cargando…</p>;
   if (error) return <p className="p-6 text-rose-400">{error}</p>;
@@ -122,13 +141,23 @@ export default function MultipleChoiceStudyPage() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
+<<<<<<< ours
           <h1 className="text-2xl font-semibold text-slate-50">Modo Multiple Choice</h1>
+=======
+          <h1 className="text-2xl font-semibold text-slate-50">
+            Modo Multiple Choice
+          </h1>
+>>>>>>> theirs
           <p className="text-slate-400 text-sm">Elegí la opción correcta.</p>
         </div>
         <StudyModeTabs />
       </div>
 
+<<<<<<< ours
       {/* ⚠️ TEMPORAL STATS v6 – sólo sesión actual */}
+=======
+      {/* ---------------- Stats locales ---------------- */}
+>>>>>>> theirs
       <div className="grid gap-3 sm:grid-cols-3 text-xs">
         <div className="rounded-2xl bg-slate-900/70 border border-slate-800 p-3">
           <p className="text-slate-400 mb-1">Resueltas hoy</p>
@@ -138,7 +167,14 @@ export default function MultipleChoiceStudyPage() {
         <div className="rounded-2xl bg-slate-900/70 border border-slate-800 p-3">
           <p className="text-slate-400 mb-1">Precisión</p>
           <p className="text-xl font-semibold">
+<<<<<<< ours
             {stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0}%
+=======
+            {stats.total > 0
+              ? Math.round((stats.correct / stats.total) * 100)
+              : 0}
+            %
+>>>>>>> theirs
           </p>
         </div>
 
@@ -153,8 +189,12 @@ export default function MultipleChoiceStudyPage() {
         </div>
       </div>
 
+<<<<<<< ours
 
       {/* Card */}
+=======
+      {/* ---------------- Card ---------------- */}
+>>>>>>> theirs
       <div className="rounded-3xl bg-slate-900 border border-slate-800 p-8 space-y-6 max-w-md mx-auto">
         
         {/* PALABRA */}
@@ -237,4 +277,8 @@ export default function MultipleChoiceStudyPage() {
       </button>
     </main>
   );
+<<<<<<< ours
 }
+=======
+}
+>>>>>>> theirs

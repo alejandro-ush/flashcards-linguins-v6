@@ -93,6 +93,7 @@ Es el origen de datos principal del motor SRS.
 */
 
 
+
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
@@ -105,6 +106,19 @@ const supabase = createClient(
 // Idiomas
 const LANG_DE = 1;
 const LANG_ES = 3;
+
+// Tipos seguros para mapTranslations y mapAttrs
+type TranslationMap = {
+  [LANG_DE]?: string;
+  [LANG_ES]?: string;
+};
+
+type AttributeMap = {
+  gender?: string | null;
+  plural?: string | null;
+  note?: string | null;
+  is_uncountable?: string | null;
+};
 
 // Utilidad para parsear límite
 function parseIntSafe(value: string | null, fallback: number): number {
@@ -124,7 +138,7 @@ export async function GET(req: Request) {
     const shuffle = searchParams.get("shuffle") === "true";
 
     // -------------------------------------------------------
-    // 1) Palabras base + joins de metadata (levels, types, categories)
+    // 1) Palabras base + joins de metadata
     // -------------------------------------------------------
     let query = supabase
       .from("words")
@@ -146,7 +160,7 @@ export async function GET(req: Request) {
     const { data: words, error: wordsError } = await query;
 
     if (wordsError) {
-      console.error("Error leyendo words en /api/study/cards:", wordsError);
+      console.error("Error leyendo words:", wordsError);
       return NextResponse.json(
         { ok: false, error: "No se pudieron obtener las palabras base." },
         { status: 500 }
@@ -157,7 +171,7 @@ export async function GET(req: Request) {
       return NextResponse.json({
         ok: true,
         count: 0,
-        cards: []
+        cards: [],
       });
     }
 
@@ -180,12 +194,13 @@ export async function GET(req: Request) {
       );
     }
 
-    const mapTranslations = new Map<number, any>();
+    const mapTranslations = new Map<number, TranslationMap>();
+
     for (const t of translations ?? []) {
       if (!mapTranslations.has(t.word_id)) {
         mapTranslations.set(t.word_id, {});
       }
-      mapTranslations.get(t.word_id)[t.language_id] = t.text;
+      mapTranslations.get(t.word_id)![t.language_id] = t.text;
     }
 
     // -------------------------------------------------------
@@ -204,33 +219,34 @@ export async function GET(req: Request) {
       );
     }
 
-    const mapAttrs = new Map<number, any>();
+    const mapAttrs = new Map<number, AttributeMap>();
+
     for (const a of attributes ?? []) {
       if (!mapAttrs.has(a.word_id)) {
         mapAttrs.set(a.word_id, {});
       }
-      mapAttrs.get(a.word_id)[a.key] = a.value;
+      mapAttrs.get(a.word_id)![a.key as keyof AttributeMap] = a.value;
     }
 
     // -------------------------------------------------------
-    // 4) Fusionar en CardV6 completo (gender, plural, note, type_name…)
+    // 4) Fusionar en CardV6
     // -------------------------------------------------------
     let cards = words.map((w) => {
-      const t = mapTranslations.get(w.id) || {};
-      const a = mapAttrs.get(w.id) || {};
+      const t = mapTranslations.get(w.id) ?? {};
+      const a = mapAttrs.get(w.id) ?? {};
 
       return {
         id: w.id,
         concept_key: w.concept_key,
 
-        // ALEMÁN y ESPAÑOL
-        word_from: t[LANG_DE] || "",
-        word_to: t[LANG_ES] || "",
+        // Idiomas
+        word_from: t[LANG_DE] ?? "",
+        word_to: t[LANG_ES] ?? "",
 
         // Atributos
         gender: a.gender ?? null,
         plural: a.plural ?? null,
-        note: w.word_types?.name === "noun" ? null : a.note || null, // NO mostrar notas si es sustantivo (noun)
+        note: w.word_types?.name === "noun" ? null : a.note ?? null,
         is_uncountable: a.is_uncountable === "true",
 
         // Metadata
@@ -244,7 +260,6 @@ export async function GET(req: Request) {
     // Filtrar tarjetas válidas
     cards = cards.filter((c) => c.word_from && c.word_to);
 
-    // Mezclar si corresponde
     if (shuffle && cards.length > 1) {
       cards = [...cards].sort(() => Math.random() - 0.5);
     }
@@ -256,7 +271,7 @@ export async function GET(req: Request) {
     });
 
   } catch (err) {
-    console.error("Error crítico en /api/study/cards:", err);
+    console.error("Error crítico:", err);
     return NextResponse.json(
       { ok: false, error: "Error inesperado en /api/study/cards." },
       { status: 500 }
