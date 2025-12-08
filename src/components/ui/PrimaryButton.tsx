@@ -1,23 +1,33 @@
 // src/components/ui/PrimaryButton.tsx
 
-export function PrimaryButton({
-  children,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+"use client";
+
+import type { ButtonHTMLAttributes, ReactNode } from "react";
+import clsx from "clsx";
+
+type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
+  children: ReactNode;
+};
+
+export function PrimaryButton({ children, className, ...props }: Props) {
   return (
     <button
       {...props}
-      className="
-        w-full max-w-[420px]
-        px-6 py-3
-        rounded-pill
-        font-semibold text-[15px]
-        border border-[rgba(15,118,110,0.35)]
-        bg-[linear-gradient(135deg,#2CE39B_0%,#25CF8C_60%,#1EBA77_100%)]
-        text-deepGreen
-        shadow-mint
-        hover:opacity-90 transition
-      "
+      className={clsx(
+        `
+        w-full
+        rounded-full
+        bg-gradient-to-r from-emerald-400 to-emerald-500
+        text-black
+        font-semibold
+        text-lg
+        py-4
+        transition
+        hover:opacity-90
+        shadow-[0_0_20px_rgba(16,185,129,0.25)]
+        `,
+        className
+      )}
     >
       {children}
     </button>

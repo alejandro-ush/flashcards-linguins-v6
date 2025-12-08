@@ -1,3 +1,5 @@
+// tailwind.config.js
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -7,29 +9,42 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bg: "#050816",
-        bgElevated: "#0b1020",
-        cardBg: "rgba(12,18,34,0.96)",
-        cardBorder: "rgba(148,163,184,0.25)",
-        textMain: "#E5F0FF",
-        textSoft: "#94A3B8",
-        textMuted: "#64748B",
-        accentMint: "#2CE39B",
-        accentMintSoft: "#9BF6D5",
-        deepGreen: "#022C22"
+        "surface-app": "var(--surface-app)",
+        "surface-card": "var(--surface-card)",
+        "surface-chip": "var(--surface-chip)",
+        "surface-nav": "var(--surface-nav)",
+
+        "text-main": "var(--text-main)",
+        "text-soft": "var(--text-soft)",
+        "text-muted": "var(--text-muted)",
+
+        "accent-primary": "var(--accent-primary)",
+        "accent-primary-soft": "var(--accent-primary-soft)",
+
+        "border-soft": "var(--border-soft)",
+        "border-strong": "var(--border-strong)",
+        "border-card": "var(--border-card)",
+        "chip-border": "var(--chip-border)",
       },
       borderRadius: {
-        xl: "24px",
-        pill: "999px"
+        pill: "var(--radius-pill)",    // 999px
+        card: "var(--radius-card)",    // 32px
+        xl: "var(--radius-xl)",        // 24px
       },
       boxShadow: {
-        card: "0 30px 80px rgba(0,0,0,0.65)",
-        mint: "0 16px 40px rgba(34,197,94,0.28)"
+        card: "var(--shadow-card)",    // 0 30px 80px rgba(0,0,0,0.65)
+        soft: "var(--shadow-soft)",    // mint glow leve
       },
       backdropBlur: {
-        soft: "18px",
-        strong: "26px"
-      }
+        soft: "var(--blur-soft)",      // 18px
+        strong: "var(--blur-strong)",  // 26px
+      },
+
+      backgroundImage: {
+        "gradient-primary": "var(--gradient-primary)",          // botón premium mint
+        "gradient-surface-soft": "var(--gradient-surface-soft)",// fondo glass card
+        "gradient-chip": "var(--gradient-chip)",                // pills
+      },
     }
   },
   plugins: []

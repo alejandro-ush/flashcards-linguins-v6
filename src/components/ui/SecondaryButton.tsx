@@ -1,20 +1,31 @@
 // src/components/ui/SecondaryButton.tsx
 
-export function SecondaryButton({
-  children,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+"use client";
+
+import type { ButtonHTMLAttributes, ReactNode } from "react";
+import clsx from "clsx";
+
+type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
+  children: ReactNode;
+};
+
+export function SecondaryButton({ children, className, ...props }: Props) {
   return (
     <button
       {...props}
-      className="
-        px-4 py-2
-        rounded-pill
-        border border-[rgba(148,163,184,0.35)]
-        bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.96),rgba(15,23,42,1))]
-        text-[13px] text-textSoft
-        hover:opacity-90 transition
-      "
+      className={clsx(
+        `
+        px-6
+        py-2.5
+        rounded-full
+        border border-slate-600/50
+        text-slate-200
+        text-sm
+        hover:bg-slate-700/30
+        transition
+        `,
+        className
+      )}
     >
       {children}
     </button>
