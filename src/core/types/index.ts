@@ -1,11 +1,40 @@
+// src/core/types/index.ts
+
+/**
+ * Item — Modelo crudo proveniente de Supabase.
+ * Combina:
+ *  - información lingüística (word_from, gender, tags…)
+ *  - información taxonómica (level_id, category_id, item_type)
+ *  - metadata para motores (registro flexible)
+ */
+
 export type ItemType = "word" | "phrase" | "chunk" | "concept";
 
 export interface Item {
-  id: number;
-  concept_key: string;
-  item_type: ItemType;
+  id: number;   //Identificador único
+  concept_key: string;   //Clave semántica del concepto (apple_noun, go_verb, etc.)
+  item_type: ItemType;   //Tipo de ítem lingüístico
+  
+  /** Nivel y categoría (taxonomía interna) */
   level_id: number;
   category_id: number;
+  
+  /**
+   * CONTENIDO LINGÜÍSTICO — datos reales de estudio que vienen de la API v6
+   * y que la UI necesita mostrar.
+   */
+  word_from: string | null;       // Lado A (p. ej. "Apfel")
+  word_to: string | null;         // Lado B (p. ej. "Manzana")
+
+  gender?: string | null;         // masculino/femenino etc.
+  plural?: string | null;         // p. ej. "Äpfel"
+  note?: string | null;           // nota opcional
+  tags?: string[] | null;         // chips/etiquetas
+
+  /**
+   * METADATA — usado exclusivamente por motores (Adaptive, Skill, Emotional, etc.)
+   * Estructura flexible, nunca se elimina.
+   */
   metadata: Record<string, unknown>;
 }
 

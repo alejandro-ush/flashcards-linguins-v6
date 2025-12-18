@@ -50,7 +50,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es" className="h-full">
       <head>
-        <style jsx global>{cssVars}</style>
+        <style dangerouslySetInnerHTML={{ __html: cssVars }} />
       </head>
       <body className="min-h-screen bg-surface-app text-main">
         {children}
